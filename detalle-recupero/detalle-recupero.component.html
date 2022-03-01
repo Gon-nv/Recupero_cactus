@@ -1,0 +1,152 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title fxLayout="row" fxLayoutAlign="none center">
+      <h3>DETALLE RECUPERO</h3>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+
+    <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="start center"
+         fxFill fxLayoutGap="1rem">
+
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+        <mat-form-field class="form-element" fxFlex="10">
+          <mat-label>Id recupero</mat-label>
+          <input matInput autosize="false" type="text" disabled> {{recupero.idRecupero}}
+        </mat-form-field>
+
+        <mat-form-field class="form-element" fxFlex="20">
+          <mat-label>Periodo</mat-label>
+          <input matInput autosize="false" type="text" disabled> {{recupero.periodo}}
+        </mat-form-field>
+
+        <mat-form-field class="form-element" fxFlex="15">
+          <mat-label>Procesado</mat-label>
+          <input matInput autosize="false" type="text" disabled> {{recupero.procesado}}
+        </mat-form-field>
+
+        <mat-form-field class="form-element" fxFlex="15">
+          <mat-label>Fecha proceso</mat-label>
+          <input matInput autosize="false" type="text" disabled> {{recupero.fechaProceso}}
+        </mat-form-field>
+
+        <mat-form-field class="form-element" fxFlex="15">
+          <mat-label>Fecha generación archivo</mat-label>
+          <input matInput autosize="false" type="text" disabled> {{recupero.fechaGeneracionArchivo}}
+        </mat-form-field>
+
+        <mat-form-field class="form-element" fxFlex="15">
+          <mat-label>Archivo</mat-label>
+          <input matInput autosize="false" type="text" disabled> {{recupero.nombreArchivo}}
+        </mat-form-field>
+
+        <mat-form-field class="form-element" fxFlex="15">
+          <mat-label>Usuario</mat-label>
+          <input matInput autosize="false" type="text" disabled> {{recupero.usuario}}
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- -->
+    <div fxLayout="column" fxLayoutAlign="start center" fxFill>
+      <div *ngIf="!dataSource?.data.length">
+        <p>No se han encontrado recuperos</p>
+      </div>
+
+      <table mat-table matSort *ngIf="dataSource?.data.length" [dataSource]="dataSource" fxFill>
+
+        <ng-container matColumnDef="tipoConvenio">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo de convenio</th>
+          <td mat-cell *matCellDef="let element"> {{element.convenio}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="sucursal">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Sucursal</th>
+          <td mat-cell *matCellDef="let element"> {{element.sucursal }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="moneda">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Moneda</th>
+          <td mat-cell *matCellDef="let element"> {{element.moneda}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="sistema">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Sistema</th>
+          <td mat-cell *matCellDef="let element"> {{element.sistema}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="nroCuenta">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Nro cta</th>
+          <td mat-cell *matCellDef="let element"> {{element.numeroCuenta}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="importe">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Importe</th>
+          <td mat-cell *matCellDef="let element"> {{element.importe}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="fecha">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</th>
+          <td mat-cell *matCellDef="let element"> {{element.fecha}}</td>
+        </ng-container>
+
+        <!--        <ng-container matColumnDef="numeroConvenio">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Nro convenio con la empresa</th>
+                  <td mat-cell *matCellDef="let element"> {{element.numeroConvenio}}</td>
+                </ng-container>-->
+
+        <ng-container matColumnDef="numeroComprobante">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Nro comprobante</th>
+          <td mat-cell *matCellDef="let element"> {{element.numeroComprobante}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="cbu">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>CBU</th>
+          <td mat-cell *matCellDef="let element"> {{element.cbu}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="cuota">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Cuota</th>
+          <td mat-cell *matCellDef="let element"> {{element.cuota}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="usuario">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Usuario</th>
+          <td mat-cell *matCellDef="let element"> {{element.usuario}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="detalleLiquidacion">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Detalle Liquidación</th>
+          <td mat-cell *matCellDef="let element"> 
+            <button mat-menu-item (click)="verDetalleLiquidacion(element.idEmpresaDebito)">
+              <mat-icon>remove_red_eye</mat-icon>
+              <span>Ver detalles liquidación</span>
+            </button> 
+          </td>
+        </ng-container>
+        
+        <tr mat-header-row *matHeaderRowDef="getColumnas(); sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: getColumnas();"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[50, 100, 200, 500]" showFirstLastButtons [hidden]="!dataSource?.data.length">
+      </mat-paginator>
+    </div>
+  </mat-card-content>
+
+  <div fxLayout="row" fxLayoutAlign="end center" class="div-registro" fxLayoutGap="1rem">
+    <button mat-raised-button color="primary" (click)="volver()"
+            matTooltip="Volver" matTooltipPosition="left">
+      Volver
+    </button>
+
+    <button mat-raised-button color="primary" (click)="imprimir()"
+            matTooltip="Generar el archivo de recupero" matTooltipPosition="left" [disabled]="!dataSource.data.length">
+      Imprimir HAB
+    </button>
+
+    <button mat-raised-button color="primary" (click)="imprimirExcel()"
+            matTooltip="Generar excel de recupero" matTooltipPosition="left" [disabled]="!dataSource.data.length">
+      Imprimir excel
+    </button>
+  </div>
+</mat-card>

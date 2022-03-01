@@ -1,0 +1,104 @@
+<mat-card>
+    <mat-card-header>
+      <mat-card-title fxLayout="row" fxLayoutAlign="none center">
+        <h3>DETALLE LIQUIDACIONES</h3>
+      </mat-card-title>
+    </mat-card-header>
+
+    
+    <!-- //cabecera -->
+    
+    <mat-card-content>
+      <div fxLayout="column" fxLayout.gt-sm="row" fxLayoutAlign="start center" fxFill fxLayoutGap="1rem">
+  
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem">
+          <mat-form-field class="form-element" fxFlex="12">
+            <mat-label>Tipo de convenio</mat-label>
+            <input matInput autosize="false" type="text" disabled> {{liquidacion.tipoConvenio}}
+          </mat-form-field>
+
+          <mat-form-field class="form-element" fxFlex="8">
+            <mat-label>Moneda</mat-label>
+            <input matInput autosize="false" type="text" disabled> {{liquidacion.moneda}}
+          </mat-form-field>
+
+          <mat-form-field class="form-element" fxFlex="8">
+            <mat-label>Sucursal</mat-label>
+            <input matInput autosize="false" type="text" disabled> {{liquidacion.sucursal}}
+          </mat-form-field>
+            
+
+          <mat-form-field class="form-element" fxFlex="15">
+            <mat-label>Sistema</mat-label>
+            <input matInput autosize="false" type="text" disabled> {{liquidacion.sistema}}
+          </mat-form-field>
+
+          <mat-form-field class="form-element" fxFlex="8">
+            <mat-label>Importe</mat-label>
+            <input matInput autosize="false" type="text" disabled> {{liquidacion.importe}}
+          </mat-form-field>
+
+          <mat-form-field class="form-element" fxFlex="15">
+            <mat-label>CBU</mat-label>
+            <input matInput autosize="false" type="text" disabled> {{liquidacion.cbu}}
+          </mat-form-field>
+            </div>
+          </div> 
+      <div fxLayout="column" fxLayoutAlign="start center" fxFill>
+        <div *ngIf="!dataSource?.data.length">
+          <p>No se han encontrado liquidaciones</p>
+        </div>
+        <table mat-table matSort *ngIf="dataSource?.data.length" [dataSource]="dataSource" fxFill>
+
+
+          <ng-container matColumnDef="fechaPago">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Pago</th>
+            <td mat-cell *matCellDef="let element"> {{element.fechaPago }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="importe">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Importe</th>
+            <td mat-cell *matCellDef="let element">${{element.importe}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="cuil">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Cuil</th>
+            <td mat-cell *matCellDef="let element"> {{element.cuil}}</td>
+          </ng-container>
+      
+          <ng-container matColumnDef="apellido">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Apellido</th>
+            <td mat-cell *matCellDef="let element"> {{element.apellido}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="nombre">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+            <td mat-cell *matCellDef="let element"> {{element.nombre}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="nombreSexo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Sexo</th>
+            <td mat-cell *matCellDef="let element"> {{element.nombreSexo}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="programa">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Programa</th>
+            <td mat-cell *matCellDef="let element"> {{element.programa}}</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="getColumnas(); sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: getColumnas();"></tr>
+        </table>
+      </div>
+      </mat-card-content> 
+
+      <!-- BOTONES -->
+
+    <!-- <mat-card> -->
+    <div fxLayout="row" fxLayoutAlign="end center" class="div-registro" fxLayoutGap="1rem">
+      <button mat-raised-button color="primary" (click)="imprimirExcel()"
+              matTooltip="Generar excel de recupero" matTooltipPosition="left" [disabled]="!dataSource.data.length">
+        Imprimir excel
+      </button>
+    </div>
+  </mat-card>

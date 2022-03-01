@@ -1,0 +1,71 @@
+<mat-card>
+    <mat-card-header>
+        <mat-card-title fxLayout="row" fxLayoutAlign="none center">
+            <h3>HISTORICO DE FICHAS</h3>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <form [formGroup]="form" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="2%">
+            <mat-form-field class="form-element" fxFlex="15%">
+              <mat-label>Nro. de ficha</mat-label>
+              <input matInput placeholder="Nro. de ficha" formControlName="idFicha" required/>
+              <mat-error *ngIf="form.get('idFicha').hasError('number')">
+                Ingresar solo números
+              </mat-error>
+              <mat-error *ngIf="
+                  !form.get('idFicha').hasError('number') &&
+                  form.get('idFicha').invalid
+                ">
+                Dato <strong>inválido</strong>.
+              </mat-error>
+            </mat-form-field>
+            <button id="btn_buscar" (click)="buscar()" class="margin-button" mat-raised-button color="primary" [disabled]="form.invalid">
+              Buscar
+            </button>
+          </form>
+        <div fxLayout="column" fxLayoutAlign="start center" fxFill>
+            <div *ngIf="!historicoFichaDataSource?.data.length">
+              <p>No se han encontrado historicos</p>
+            </div>
+      
+            <table mat-table matSort *ngIf="historicoFichaDataSource?.data.length" [dataSource]="historicoFichaDataSource" fxFill>
+      
+              <ng-container matColumnDef="nombre">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+                <td mat-cell *matCellDef="let element"> {{element.persona?.nombre}}</td>
+              </ng-container>
+      
+              <ng-container matColumnDef="apellido">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Apellido</th>
+                <td mat-cell *matCellDef="let element"> {{element.persona?.apellido }}</td>
+              </ng-container>
+      
+              <ng-container matColumnDef="nroTramite">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Número de trámite</th>
+                <td mat-cell *matCellDef="let element"> {{element.nroTramite}}</td>
+              </ng-container>
+      
+              <ng-container matColumnDef="fecSist">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de sistema</th>
+                <td mat-cell *matCellDef="let element"> {{element.fecSist | date: 'dd/MM/yyyy'}}</td>
+              </ng-container>
+      
+              <ng-container matColumnDef="empresa">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Empresa</th>
+                <td mat-cell *matCellDef="let element"> {{element.empresa}}</td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="['nombre','apellido','nroTramite','fecSist','empresa'] sticky: true"></tr>
+              <tr mat-row *matRowDef="let row; columns: ['nombre','apellido','nroTramite','fecSist','empresa']"></tr>
+            </table>
+            <mat-paginator [pageSizeOptions]="[50, 100, 200, 500]" showFirstLastButtons [hidden]="!historicoFichaDataSource?.data.length">
+            </mat-paginator>
+          </div>
+    </mat-card-content>
+    <div fxLayout="row" fxLayoutAlign="end center" class="div-registro" fxLayoutGap="1rem">
+        <button mat-raised-button color="primary" (click)="imprimirExcel()"
+            matTooltip="Generar excel de historico" matTooltipPosition="left" [disabled]="!historicoFichaDataSource?.data.length">
+        Imprimir excel
+        </button>
+    </div>
+    
+</mat-card>
